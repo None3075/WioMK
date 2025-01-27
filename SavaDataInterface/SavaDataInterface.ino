@@ -1,6 +1,6 @@
 //Libraries 
 #include <Wire.h>
-
+//#include <rpcWiFi.h>
 #include <Digital_Light_TSL2561.h>
 #include "SmartInterface.h"
 
@@ -88,9 +88,16 @@ NotificationAlert* notifications[N_NOTIFICATIONS] = {
 
 Tracker tracker;
 
+// Wifi credentials
+
+const char* ssid = "Patata";
+const char* password = "password";
+
+
 void setup()
 {
   SERIAL.begin(9600); //Start SERIAL communication
+  //wifiSetup();
   pinMode(WIO_MIC, INPUT);
   tft.begin(); //Start TFT LCD
   tft.setRotation(3); //Set TFT LCD rotation

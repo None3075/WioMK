@@ -39,6 +39,7 @@ int color_scale[5] = {TFT_RED, TFT_ORANGE, TFT_YELLOW, TFT_GREENYELLOW, TFT_GREE
 String possible_class_type[] = {"magistral", "interactive", "exercises", "laboratory"};
 String possible_time_type[] = {"morning", "noon", "afternoon"};
 String possible_day_type[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+const String username = "Morelab";
 
 void start_class_menu()
 {
