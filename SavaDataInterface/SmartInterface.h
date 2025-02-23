@@ -2,16 +2,15 @@
 #define SMART_INTERFACE
 
 #include "ClassAssistant.h"
-#include "TFT_eSPI.h" //TFT LCD library 
 #include "SCD30.h"
+
+#define BUFFER_SIZE 5000
 
 // #include "SD/Seeed_SD.h"
 // #include "RTC_SAMD51.h"
 // #include "DateTime.h"
 
 
-extern TFT_eSPI tft; //Initializing TFT LCD
-extern TFT_eSprite spr;
 extern ClassAssistant classAssistant;
 
 void show_measured_data();
@@ -58,7 +57,8 @@ class Tracker
         float get_light_average();
         float get_air_quality_average();
         float get_temperature_average();
-        void write_data();
+        void write_data(bool);
+        void uploadCSV(const char*, bool);
     
     private:
         void check_limits(float data[4]);

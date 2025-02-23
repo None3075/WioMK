@@ -1,41 +1,5 @@
 #include "SmartInterface.h"
 
-
-int font_size = 2;
-int box_h = 20;
-int box_gap_h = 5;
-
-int corner_color = TFT_CYAN;
-
-int box_w = 100;
-
-int box_type[2] = {20, 80};
-int box_type_content[2] = {180, 80};
-
-int box_students[2] = {box_type[0], box_type[1] + box_h + box_gap_h};
-int box_students_content[2] = {box_type_content[0], box_type_content[1] + box_h + box_gap_h};
-
-int box_time[2] = {box_type[0], box_students[1] + box_h + box_gap_h};
-int box_time_content[2] = {box_students_content[0], box_students_content[1] + box_h + box_gap_h};
-
-int box_day[2] = {box_type[0], box_time[1] + box_h + box_gap_h};
-int box_day_content[2] = {box_time_content[0], box_time_content[1] + box_h + box_gap_h};
-
-int select_button_w = 100;
-int select_button_h = 20;
-
-int box_confirm[2] = {200, 200};
-int box_cancel[2] = {100, 200};
-
-
-int punctuation_box[2] = {60, 80};
-int punctuation_box_w = 200;
-int punctuation_box_h = 5;
-int punctuation_gap = 3;
-int color_scale[5] = {TFT_RED, TFT_ORANGE, TFT_YELLOW, TFT_GREENYELLOW, TFT_GREEN};
-
-
-
 String possible_class_type[] = {"magistral", "interactive", "exercises", "laboratory"};
 String possible_time_type[] = {"morning", "noon", "afternoon"};
 String possible_day_type[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -155,50 +119,6 @@ void start_class_menu()
         }
 
         SERIAL.println("Starting menu display");
-        
-        spr.fillSprite(TFT_BLACK); //Fill background with white color
-        spr.fillRect(0,0,320,50,TFT_DARKCYAN); //Rectangle fill with dark green 
-        spr.setTextColor(TFT_WHITE); //Setting text color
-        spr.setTextSize(3); //Setting text size 
-        spr.drawString("Start class",37,15); //Drawing a text String 
-        spr.setTextSize(font_size); //Setting text size 
-
-        // Draw type box
-        spr.drawRoundRect(box_type[0] , box_type[1], box_w, box_h , 10, TFT_WHITE);
-        spr.drawString("type", box_type[0], box_type[1]);
-        // Draw type box content
-        spr.drawRoundRect(box_type_content[0] , box_type_content[1], box_w, box_h , 10, selected_button == 0 ? corner_color : TFT_WHITE);
-        spr.drawString(possible_class_type[current_class_type], box_type_content[0], box_type_content[1]);
-
-        // Draw students box
-        spr.drawRoundRect(box_students[0] , box_students[1], box_w, box_h , 10, TFT_WHITE);
-        spr.drawString("students", box_students[0], box_students[1]);
-        // Draw students box content
-        spr.drawRoundRect(box_students_content[0] , box_students_content[1], box_w, box_h , 10, selected_button == 1 ? corner_color : TFT_WHITE);
-        spr.drawString(String(students), box_students_content[0], box_students_content[1]);
-
-        // Draw time box
-        spr.drawRoundRect(box_time[0] , box_time[1], box_w, box_h , 10, TFT_WHITE);
-        spr.drawString("time", box_time[0], box_time[1]);
-        // Draw time box content
-        spr.drawRoundRect(box_time_content[0] , box_time_content[1], box_w, box_h , 10, selected_button == 2 ? corner_color : TFT_WHITE);
-        spr.drawString(possible_time_type[current_time_type], box_time_content[0], box_time_content[1]);
-
-        // Draw day box
-        spr.drawRoundRect(box_day[0] , box_day[1], box_w, box_h , 10, TFT_WHITE);
-        spr.drawString("day", box_day[0], box_day[1]);
-        // Draw day box content
-        spr.drawRoundRect(box_day_content[0] , box_day_content[1], box_w, box_h , 10, selected_button == 3 ? corner_color : TFT_WHITE);
-        spr.drawString(possible_day_type[current_day_type], box_day_content[0], box_day_content[1]);
-
-        //Draw confirm button
-        spr.drawRoundRect(box_confirm[0] , box_confirm[1], select_button_w, select_button_h , 10, selected_button == 4 ? TFT_GREEN : TFT_WHITE);
-        spr.drawString("confirm", box_confirm[0], box_confirm[1]);
-
-        // Draw cancel button
-        spr.drawRoundRect(box_cancel[0] , box_cancel[1], select_button_w, select_button_h , 10, selected_button == 5 ? TFT_RED : TFT_WHITE);
-        spr.drawString("cancel", box_cancel[0], box_cancel[1]);
-        spr.pushSprite(0,0);
         SERIAL.println("End start menu lcd display");
         delay(50);
     }
@@ -240,23 +160,6 @@ bool change_block_menu(String block)
         }
 
         SERIAL.println("Starting lcd change block information");
-        spr.fillSprite(TFT_BLACK); //Fill background with white color
-        spr.fillRect(0, 0, 320, 320, TFT_DARKGREY); //Rectangle fill with dark green 
-        spr.setTextColor(TFT_WHITE); //Setting text color
-        spr.setTextSize(2); //Setting text size 
-        spr.drawString(classAssistant.get_current_block(),37,15);
-        spr.drawString("block finished?", 37, 50);
-        spr.setTextSize(font_size);
-
-
-        //Draw confirm button
-        spr.drawRoundRect(box_confirm[0] , box_confirm[1], select_button_w, select_button_h , 10, selected_button == 0 ? TFT_GREEN : TFT_WHITE);
-        spr.drawString("confirm", box_confirm[0], box_confirm[1]);
-
-        // Draw cancel button
-        spr.drawRoundRect(box_cancel[0] , box_cancel[1], select_button_w, select_button_h , 10,  selected_button == 1? TFT_RED : TFT_WHITE);
-        spr.drawString("cancel", box_cancel[0], box_cancel[1]);
-        spr.pushSprite(0,0);
         SERIAL.println("Pushed lcd information");
         delay(50);
     }
@@ -323,34 +226,12 @@ int end_class_menu()
 
         SERIAL.println("Start lcd showing for end class menu");
 
-        spr.fillSprite(TFT_BLACK); //Fill background with white color
-        spr.fillRect(0, 0, 320, 60, TFT_PURPLE); //Rectangle fill with dark green 
-        spr.setTextColor(TFT_WHITE); //Setting text color
-        spr.setTextSize(1); //Setting text size 
-        spr.drawString("End of class.", 37, 15);
-        spr.drawString("Rate the class between 0-10  ", 37, 40);
-        spr.setTextSize(font_size); //Setting text size 
-
-
         for (int i=10; i > 0; i--)
         {
             SERIAL.print(i);
-            spr.drawCircle(punctuation_box[0], punctuation_box[1] + (10 - i) * (2 *punctuation_box_h + punctuation_gap), punctuation_box_h, i <= rate ? color_scale[i/2] : TFT_WHITE);
-            spr.fillCircle(punctuation_box[0], punctuation_box[1] + (10 - i) * (2 *punctuation_box_h + punctuation_gap), punctuation_box_h, i <= rate ? color_scale[i/2] : TFT_WHITE);
-            // spr.drawRoundRect(punctuation_box[0] , punctuation_box[1] + i * punctuation_box_h, punctuation_box_w, punctuation_box_h , rate < i ? color_scale[i/2] : TFT_LIGHTGREY, TFT_WHITE);
-            // spr.drawRoundRect(punctuation_box[0] , punctuation_box[1] + (10 - i) * (punctuation_box_h + punctuation_gap), punctuation_box_w, punctuation_box_h , 10, i <= rate ? color_scale[i/2] : TFT_WHITE);
         }
         SERIAL.println("Finish punctuation boxs");
 
-        //Draw confirm button
-        spr.drawRoundRect(box_confirm[0] , box_confirm[1], select_button_w, select_button_h , 10, selected_button == 1 ? TFT_GREEN : TFT_WHITE);
-        spr.drawString("confirm", box_confirm[0], box_confirm[1]);
-
-        // Draw cancel button
-        spr.drawRoundRect(box_cancel[0] , box_cancel[1], select_button_w, select_button_h , 10, selected_button == 2 ? TFT_RED : TFT_WHITE);
-        spr.drawString("cancel", box_cancel[0], box_cancel[1]);
-        
-        spr.pushSprite(0,0);
         SERIAL.println("Pushed lcd information");
         delay(50);
     }

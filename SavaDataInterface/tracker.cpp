@@ -1,5 +1,6 @@
 #include "SmartInterface.h"
 
+
 Tracker::Tracker()
 {
     for (int i = 0; i < 4; i++)
@@ -72,7 +73,7 @@ void Tracker::check_limits(float data[4])
 // #include "RTC_SAMD51.h"
 // #include "DateTime.h"
 
- void Tracker::write_data()
+ void Tracker::write_data(bool end)
  {
     DateTime now = DateTime(F(__DATE__), F(__TIME__));
     rtc.adjust(now);
@@ -104,4 +105,52 @@ void Tracker::check_limits(float data[4])
     myFile = SD.open(nameFile, FILE_APPEND);
     myFile.println(save_txt);
     myFile.close();
+    uploadCSV(save_txt.c_str(), end);
  }
+
+  void Tracker::uploadCSV(const char* data, bool end) {
+
+    // Read the file content
+    char fileContent[BUFFER_SIZE] = "------MyBoundary\r\nContent-Disposition: form-data; name=\"file\"; filename=\"data.csv\"\r\nContent-Type: text/csv\r\n\r\n";
+    int index = 110; // 126
+    int datalen = strlen(data);
+    const char* columns = "fechayhora,Media Humedad,Max Humedad,Min Humedad,Media Luminosidad,Max Luminosidad,Min Luminosidad,Media CalidadAire,Max CalidadAire,Min CalidadAire,Media Temperatura,Max Temperatura, Min Temperatura\n";
+    int cols = strlen(columns);
+    strcpy(fileContent + index, columns);
+    index += cols; // + 200 of columns offset
+    strcpy(fileContent + index, data);
+    index += datalen;
+    char boundary[] = "\r\n------MyBoundary--\r\n\0";
+    strcpy(&fileContent[index], boundary);
+
+    Serial.println("fileContentgfdsgfdgdfjnfdsklnfeowuanfojewnfoewnfowenforewnfwenjoifneojwfewfew");
+    Serial.println(fileContent);
+
+    // Send data to the server
+    if (WiFi.status() == WL_CONNECTED) {
+      HTTPClient http;
+      http.begin(serverUrl);
+      http.addHeader("Content-Type", "multipart/form-data; boundary=----MyBoundary");
+
+      http.addHeader("userToken", "Patata"); // TODO ; HARDCODE ON TOP
+      String endCSV = end ? "true" : "false";
+      http.addHeader("end", endCSV);
+
+      http.setTimeout(10000);
+      Serial.println("Uploading file...");
+      int httpResponseCode = http.POST(fileContent);
+
+      if (httpResponseCode > 0) {
+        Serial.print("Server response: ");
+        Serial.println(httpResponseCode);
+        //Serial.println(http.getString());
+      } else {
+        Serial.print("Failed to upload: ");
+        Serial.println(http.errorToString(httpResponseCode).c_str());
+      }
+
+      http.end();
+    } else {
+      Serial.println("Wi-Fi not connected.");
+    }
+  }

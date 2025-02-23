@@ -6,6 +6,8 @@
 #include "SD/Seeed_SD.h"
 #include "RTC_SAMD51.h"
 #include "DateTime.h"
+#include <rpcWiFi.h>
+#include <HTTPClient.h>
 
 #if defined(ARDUINO_ARCH_AVR)
     #pragma message("Defined architecture for ARDUINO_ARCH_AVR.")
@@ -43,6 +45,12 @@ extern float laboratory_time_in_a_row;
 
 #define NOTIFICATION_EXTRA_BLOCK_TIME 0.3
 #define MAX_TIME_IN_A_ROW 2
+
+
+// Wifi credentials
+extern const char* ssid;
+extern const char* password;
+extern const char* serverUrl;
 
 
 enum ClassTypes {
