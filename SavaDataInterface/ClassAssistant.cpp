@@ -2,7 +2,7 @@
 
 const char* ssid = "Patata";
 const char* password = "password";
-const char* serverUrl = "http://192.168.127.248:8000/upload/";
+const char* serverUrl = "http://192.168.103.248:8000/upload/";
 
 // Constructor
 ClassAssistant::ClassAssistant()

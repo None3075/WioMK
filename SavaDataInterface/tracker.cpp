@@ -73,10 +73,8 @@ void Tracker::check_limits(float data[4])
 // #include "RTC_SAMD51.h"
 // #include "DateTime.h"
 
- void Tracker::write_data(bool end)
+ void Tracker::write_data(const char* end)
  {
-    DateTime now = DateTime(F(__DATE__), F(__TIME__));
-    rtc.adjust(now);
     now = rtc.now();
     String nameFile = "measured_data";
     String csv = ".csv";
@@ -98,6 +96,7 @@ void Tracker::check_limits(float data[4])
 
     now = rtc.now();
     String datetime = now.timestamp(DateTime::TIMESTAMP_FULL);
+    Serial.println(datetime);
     String save_txt = datetime + "," + data_txt;
 
     Serial.println("Saved Data: "+ String(save_txt));
@@ -108,7 +107,7 @@ void Tracker::check_limits(float data[4])
     uploadCSV(save_txt.c_str(), end);
  }
 
-  void Tracker::uploadCSV(const char* data, bool end) {
+  void Tracker::uploadCSV(const char* data, const char* end) {
 
     // Read the file content
     char fileContent[BUFFER_SIZE] = "------MyBoundary\r\nContent-Disposition: form-data; name=\"file\"; filename=\"data.csv\"\r\nContent-Type: text/csv\r\n\r\n";
@@ -133,8 +132,7 @@ void Tracker::check_limits(float data[4])
       http.addHeader("Content-Type", "multipart/form-data; boundary=----MyBoundary");
 
       http.addHeader("userToken", "Patata"); // TODO ; HARDCODE ON TOP
-      String endCSV = end ? "true" : "false";
-      http.addHeader("end", endCSV);
+      http.addHeader("end", end);
 
       http.setTimeout(10000);
       Serial.println("Uploading file...");

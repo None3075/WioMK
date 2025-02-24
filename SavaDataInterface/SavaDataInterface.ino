@@ -69,6 +69,7 @@ NotificationAlert airtAlert(5, 10*60, "Bad air quality detected");
 float min_concentration = 0;
 
 unsigned long lastTrackerCall = 0;
+bool in_class = false;
 
 #define N_NOTIFICATIONS 7
 NotificationAlert* notifications[N_NOTIFICATIONS] = {
@@ -168,10 +169,13 @@ void setup()
   }
   SERIAL.println("initialization done.");
   rtc.begin();
+  DateTime now = DateTime(F(__DATE__), F(__TIME__));
+  rtc.adjust(now);
 }
 
 void loop() {
-
+  String datetime = rtc.now().timestamp(DateTime::TIMESTAMP_FULL);
+  Serial.println(datetime);
   // Read right button
   if (digitalRead(WIO_KEY_A) == LOW) {
   //  delay(500);
@@ -206,6 +210,8 @@ void loop() {
       current_state = start_class;
       SERIAL.print("Current state start class ");
       SERIAL.println(current_state);
+      tracker.write_data("start");
+      in_class = true;
     }
     else
     {
@@ -213,7 +219,8 @@ void loop() {
       SERIAL.println("class ended");
       classAssistant.end_class();
       tracker.gather_data(h, light, concentration, t);
-      tracker.write_data(true);
+      tracker.write_data("end");
+      in_class = false;
       SERIAL.println("Finish end class menu");
     }
   }
@@ -365,10 +372,10 @@ void show_measured_data()
     }
     analogWrite(WIO_BUZZER, 0);
   }
-  if (millis() - lastTrackerCall >= 10000) { // every 10 seconds
+  if ((millis() - lastTrackerCall >= 10000) && in_class) { // every 10 seconds
     lastTrackerCall = millis();
     tracker.gather_data(h, light, concentration, t);
-    tracker.write_data(false);
+    tracker.write_data("class");
   }
   delay(50);
 }

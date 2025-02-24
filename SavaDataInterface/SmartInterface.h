@@ -57,8 +57,8 @@ class Tracker
         float get_light_average();
         float get_air_quality_average();
         float get_temperature_average();
-        void write_data(bool);
-        void uploadCSV(const char*, bool);
+        void write_data(const char*);
+        void uploadCSV(const char*, const char*);
     
     private:
         void check_limits(float data[4]);
@@ -68,7 +68,8 @@ class Tracker
         float max_values[4] = {0, 0, 0, 0};
         float min_values[4] = {9999, 999999, 9999999, 999999};
         float average_values[4] = {0.0, 0.0, 0.0, 0.0};
-        unsigned long n_entries = 0;  
+        unsigned long n_entries = 0;
+        DateTime now;
 
 };
 
