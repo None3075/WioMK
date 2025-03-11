@@ -178,6 +178,10 @@ void loop() {
   Serial.println(datetime);
   // Read right button
   if (digitalRead(WIO_KEY_A) == LOW) {
+    if (classAssistant.get_class_has_started()){
+      tracker.write_data("break");
+    }
+    
   //  delay(500);
   //  SERIAL.println("button A pressed");
   //  SERIAL.println(pressed);
@@ -227,11 +231,11 @@ void loop() {
 
   else if (classAssistant.get_class_is_running() && digitalRead(WIO_KEY_C) == LOW)
   {
-    delay(200);
-    SERIAL.println("Button C is pressed");
-    current_state = change_block;
-    SERIAL.print("Current state change block ");
-    SERIAL.println(current_state);
+    //delay(200);
+    //SERIAL.println("Button C is pressed");
+    //current_state = change_block;
+    //SERIAL.print("Current state change block ");
+    //SERIAL.println(current_state);
   }
 
   if (pause_resume_notification && millis() - started_notification > 5 * 1000)
