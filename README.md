@@ -91,6 +91,6 @@ Este script se encarga de la integración de la conectividad via MQTT y no tiene
 ## Licencia
 Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE).
 
-Proyecto dirigido por [Diego Casado Mansilla](https://www.deusto.es/es/inicio/somos-deusto/equipo/investigadores/1363/investigador).
+Proyecto dirigido por [Oihane Gomez Carmona](https://scholar.google.es/citations?hl=es&user=ptqq8JAAAAAJ).
 
 [Repositorio en GitHub](https://github.com/mkbaraka/WioMK)
