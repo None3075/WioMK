@@ -1,76 +1,21 @@
 # Sistema IoT para Evaluar el Desempeño del Proceso de Enseñanza y Aprendizaje en el Aula
 
 ## Descripción
-Este proyecto mejora el proceso de enseñanza-aprendizaje mediante un dispositivo IoT desarrollado con Wio Terminal. Monitorea en tiempo real variables ambientales y dinámicas educativas, ofreciendo apoyo analítico al profesorado.
-
-## Características
-- **Monitoreo ambiental**: Temperatura, humedad, calidad del aire y luminosidad.
-- **Seguimiento de actividades**: Registro de dinámicas de clase y cambios en tiempo real.
-- **Interfaz intuitiva**: Configurable y fácil de usar para los docentes.
-- **Alertas y notificaciones**: En tiempo real sobre condiciones desfavorables.
-- **Análisis de datos**: Dashboards detallados con métricas y estadísticas mediante Grafana.
-
-## Conectividad y Analítica de Datos
-El dispositivo utiliza las siguientes tecnologías para la conectividad y análisis de datos:
-- **MQTT**: Protocolo de comunicación para IoT.
-- **Mosquitto**: Broker MQTT que gestiona la comunicación entre dispositivos.
-- **Grafana**: Plataforma de visualización de datos.
-- **Matplotlib y Pandas**: Bibliotecas de Python para la visualización y análisis de datos desde archivos CSV mediante un Script.
-
-### Instalación del Contenedor de Docker para Grafana
-1. Clona el repositorio:
-    ```sh
-    git clone https://github.com/mkbaraka/WioMK.git
-    ```
-2. Navega al directorio del proyecto:
-    ```sh
-    cd WioMK
-    ```
-3. Navega al directorio `grafana`:
-    ```sh
-    cd grafana
-    ```
-4. Construye y ejecuta el contenedor de Docker:
-    ```sh
-    docker-compose up -d
-    ```
-5. Accede a Grafana en tu navegador web:
-    ```sh
-    http://localhost:3000
-    ```
+Este proyecto utiliza la base del projecto [WioMK](https://github.com/mkbaraka/WioMK) para crear un sistema IoT que permite evaluar el desempeño del proceso de enseñanza y aprendizaje en el aula. El sistema está diseñado para ser utilizado con la Wio Terminal y se conecta a un servidor web para enviar datos de las sesiones de clase.
 
 ## Instalación del Dispositivo
-1. Configura el Wio Terminal:
-    - Sigue las instrucciones en la Wiki para configurar el hardware y cargar el firmware en el dispositivo.
-2. Configura el broker Mosquitto:
-    - Asegúrate de que Mosquitto esté instalado y configurado correctamente en tu servidor.
-3. Configura el servidor MQTT en el Wio Terminal:
-    - Modifica el archivo de configuración `wifi_mqtt.h` en el firmware del Wio Terminal con la dirección IP y el puerto de tu broker Mosquitto.
-
-## Uso
-1. Enciende el dispositivo Wio Terminal.
-2. Configura los parámetros de la clase a través de la interfaz.
-3. Monitorea las condiciones ambientales y dinámicas de clase.
-4. Revisa los datos y alertas en tiempo real.
-5. Accede a los análisis detallados mediante Grafana.
-
-## Scripts
-Este proyecto utiliza dos scripts principales para gestionar las diferentes funcionalidades del dispositivo.
+1. Configure los datos de la red WiFi en el archivo `ClassAssistant.cpp`
+2. Añade la ip del Servidor Web en el archivo `ClassAssistant.cpp`
+3. Añade el User token en el archivo `tracker.cpp`
+4. Cargar el código a la Wio Terminal utilizando Arduino IDE.
 
 ### SavaDataInterface
-Este script muestra una interfaz donde interactúan los profesores y se almacenan los datos en dos archivos CSV.
+Este script a sido cambiado y por tanto ya no enseña interfaz gráfica, sino que se conecta directamente al servidor web para enviar datos. Los datos, estadisticas, estados de la clase y graficas se pueden consultar en el servidor web. El hecho de que no se muestre la interfaz gráfica es debido a limitaciones de la Wio Terminal.
 
-- **measure_data.csv**: Guarda los datos ambientales obtenidos por los sensores.
-- **class_data.csv**: Guarda los datos de las clases realizadas.
-
-### Script de Conectividad via MQTT
-Este script se encarga de la integración de la conectividad via MQTT y no tiene capacidad de interfaz gráfica debido a las limitaciones de las librerías.
-
-- **Funcionalidad**:
-    - Envía los datos via WiFi utilizando la librería `rcpWifi`.
-    - Los datos son enviados al broker MQTT y posteriormente mostrados en Grafana.
-- **Limitaciones**:
-    - No es posible utilizar la librería `TFT_LCD` junto con la librería `rcpWifi`, por lo que este script no incluye una interfaz gráfica.
+### Controles
+- **Botón A (Izquierda)**: Desactivado.
+- **Botón B (Centro)**: Inicia y termina la sesión de clase.
+- **Botón C (Derecha)**: Al estar en sesión, presionarlo iniciará o terminará el descanso de la clase.
 
 ## Contribución
 1. Haz un fork del proyecto.
