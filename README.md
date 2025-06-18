@@ -1,41 +1,67 @@
-# Sistema IoT para Evaluar el Desempeño del Proceso de Enseñanza y Aprendizaje en el Aula
+# WioMK: Sistema IoT para Aulas Inteligentes
 
-## Descripción
-Este proyecto utiliza la base del projecto [WioMK](https://github.com/mkbaraka/WioMK) para crear un sistema IoT que permite evaluar el desempeño del proceso de enseñanza y aprendizaje en el aula. El sistema está diseñado para ser utilizado con la Wio Terminal y se conecta a un servidor web para enviar datos de las sesiones de clase.
+## SavaDataInterface
 
-## Instalación del Dispositivo
-1. Configure los datos de la red WiFi en el archivo `ClassAssistant.cpp`
-2. Añade la ip del Servidor Web en el archivo `ClassAssistant.cpp`
-3. Añade el User token en el archivo `tracker.cpp`
-4. Cargar el código a la Wio Terminal utilizando Arduino IDE.
+### Descripción
+SavaDataInterface es un módulo del sistema WioMK que permite monitorizar variables ambientales en el aula (temperatura, humedad, calidad del aire y luminosidad) y evaluar el proceso de enseñanza-aprendizaje. Esta versión está optimizada para maximizar la confiabilidad en la recolección y envío de datos, prescindiendo de la interfaz gráfica en la pantalla del dispositivo.
 
-### SavaDataInterface
-Este script a sido cambiado y por tanto ya no enseña interfaz gráfica, sino que se conecta directamente al servidor web para enviar datos. Los datos, estadisticas, estados de la clase y graficas se pueden consultar en el servidor web. El hecho de que no se muestre la interfaz gráfica es debido a limitaciones de la Wio Terminal.
+### Características Principales
+- Monitorización continua de variables ambientales del aula
+- Gestión de sesiones de clase (inicio, fin, descansos)
+- Transmisión de datos a servidor web en tiempo real
+- Optimizado para máxima estabilidad y duración de batería
 
-### Controles
-- **Botón A (Izquierda)**: Desactivado.
-- **Botón B (Centro)**: Inicia y termina la sesión de clase.
-- **Botón C (Derecha)**: Al estar en sesión, presionarlo iniciará o terminará el descanso de la clase.
+## Instalación y Configuración
 
-## Contribución
-1. Haz un fork del proyecto.
-2. Crea una rama para tu feature:
-    ```sh
-    git checkout -b feature/nueva-feature
-    ```
-3. Realiza los cambios y haz commits:
-    ```sh
-    git commit -m "Descripción de los cambios"
-    ```
-4. Empuja tu rama:
-    ```sh
-    git push origin feature/nueva-feature
-    ```
-5. Abre un Pull Request.
+### 1. Configuración del Entorno WiFi
+Edite el archivo `ClassAssistant.cpp` para configurar su red:
 
-## Licencia
-Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE).
+```cpp
+const char* ssid = "SU_RED_WIFI";
+const char* password = "SU_CONTRASEÑA";
+```
 
-Proyecto dirigido por [Oihane Gomez Carmona](https://scholar.google.es/citations?hl=es&user=ptqq8JAAAAAJ).
+### 2. Configuración del Servidor
+En el mismo archivo, configure la dirección del servidor:
 
-[Repositorio en GitHub](https://github.com/mkbaraka/WioMK)
+```cpp
+const char* serverUrl = "http://SU_IP_SERVIDOR:8000/upload/";
+```
+
+### 3. Configuración de Autenticación
+Edite `tracker.cpp` (línea 107) para establecer su token:
+
+```cpp
+http.addHeader("userToken", "SU_TOKEN"); // default is "Patata"
+```
+
+### 4. Carga del Firmware
+Cargue el sketch `SavaDataInterface.ino` a la Wio Terminal usando Arduino IDE.
+
+## Uso del Dispositivo
+
+### Interfaz Física
+SavaDataInterface utiliza un sistema de control mediante botones físicos:
+
+- **Botón A (Izquierda)**: Desactivado en esta versión
+- **Botón B (Centro)**: Inicia y termina la sesión de clase
+- **Botón C (Derecha)**: Inicia o finaliza el descanso/break dentro de una sesion
+
+### Ciclo de Funcionamiento
+1. **Inicio de Sesión**: Presione el botón B para iniciar la sesión
+2. **Durante la Sesión**: El dispositivo recolecta datos ambientales automáticamente
+3. **Descanso**: Presione el botón A para marcar un descanso
+4. **Finalización**: Presione nuevamente el botón B para finalizar la sesión
+
+### Monitorización
+Los datos se envían automáticamente al servidor web configurado. No se muestra información en la pantalla del dispositivo debido a limitaciones tecnicas del propio dispositivo.
+
+## Detalles Técnicos
+El dispositivo envía datos en formato CSV con las siguientes métricas:
+- Temperatura (°C)
+- Humedad relativa (%)
+- Calidad del aire (ppm CO₂)
+- Luminosidad (lux)
+- Eventos de sesión (inicio, descanso, fin)
+
+Los datos son identificados con timestamp para su posterior análisis.
