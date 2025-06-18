@@ -3,7 +3,7 @@
 ## SavaDataInterface
 
 ### Descripción
-SavaDataInterface es un módulo del sistema WioMK que permite monitorizar variables ambientales en el aula (temperatura, humedad, calidad del aire y luminosidad) y evaluar el proceso de enseñanza-aprendizaje. Esta versión está optimizada para maximizar la confiabilidad en la recolección y envío de datos, prescindiendo de la interfaz gráfica en la pantalla del dispositivo.
+SavaDataInterface es un módulo del sistema WioMK que permite monitorizar variables ambientales en el aula (temperatura, humedad, calidad del aire y luminosidad) y evaluar el proceso de enseñanza-aprendizaje. Esta versión se enfoca en la recolección y envío de datos, prescindiendo de la interfaz gráfica en la pantalla del dispositivo.
 
 ### Características Principales
 - Monitorización continua de variables ambientales del aula
