@@ -50,8 +50,8 @@ SavaDataInterface utiliza un sistema de control mediante botones físicos:
 ### Ciclo de Funcionamiento
 1. **Inicio de Sesión**: Presione el botón B para iniciar la sesión
 2. **Durante la Sesión**: El dispositivo recolecta datos ambientales automáticamente y los envia al servidor web
-3. **Descanso**: Presione el botón C para iniciar el descanso
-3. **Descanso**: Presione el botón C para terminar el descanso
+3. **Inicio de Descanso**: Presione el botón C para iniciar el descanso
+3. **Final de Descanso**: Presione el botón C para terminar el descanso
 4. **Finalización**: Presione nuevamente el botón B para finalizar la sesión
 
 ### Monitorización
