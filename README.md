@@ -66,3 +66,8 @@ El dispositivo envía datos en formato CSV con las siguientes métricas:
 - Eventos de sesión (inicio, descanso, fin)
 
 Los datos son identificados con timestamp para su posterior análisis.
+
+## Licencia
+Este proyecto está bajo la Licencia MIT. Para más detalles, consulta el archivo [LICENSE](LICENSE).
+
+Proyecto dirigido por [Oihane Gomez Carmona](https://scholar.google.es/citations?hl=es&user=ptqq8JAAAAAJ).
